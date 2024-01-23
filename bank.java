@@ -56,7 +56,8 @@ public class bank{
         winBonus = 0.001+workers%100;
         //should only be removed when loosing
     }
-    
+
+    //returns default format for toString implementation
     public String toString(){
         return money + " money " + workers + " workers " + winBonus + " winBonus";
     }

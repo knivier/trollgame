@@ -31,14 +31,21 @@ public class MyProgram {
 
         //number of days selection
         System.out.print("Please enter the number of days you want to play for:  ");
-        int days = input.nextInt();
-        int tempDays = days;
-        while((days <=3) || (days > 60)){
-            System.out.print("Your number of days must be greater than 3 days and less than 60. Please enter a valid number again");
-            days = input.nextInt();
+        int days;
+        
+        while (true) {
+            try {
+                days = Integer.parseInt(input.nextLine());
+                if (days > 3 && days <= 60) {
+                    break;
+                } else {
+                    System.out.print("Your number of days must be greater than 3 days and less than or equal to 60. Please enter a valid number again: ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. Please enter a valid number: ");
+            }
         }
-        Thread.sleep(1000);
-        gap(1);
+        int tempDays = days;
         //end number of days selection
 
         //start of difficulty + directions screen
@@ -56,6 +63,13 @@ public class MyProgram {
         Thread.sleep(500);
         System.out.print("What difficulty would you like? Enter the corresponding number: ");
         int difficulty = input.nextInt();
+        do{
+            System.out.print("Re-enter your number ");
+            difficulty = input.nextInt();
+
+        }
+        while(difficulty > 5 || difficulty < 1);
+        
         switch (difficulty) {
             case 1:
                 System.out.println("You have choosen level 1, the easiest level");
@@ -74,6 +88,7 @@ public class MyProgram {
                 System.out.println("The creators of the game wish you luck");
                 break;
         }
+        Thread.sleep(2000);
         //end of difficulty screen
 
         //start of first battle and shop experience.    
@@ -138,7 +153,18 @@ public class MyProgram {
             System.out.println("You loose!");
             playerBank.removeMoney(playerLegion.getSoldiers()*10);
             System.out.println("You now have $" + playerBank.getMoney());
-            //remove 1 or 2 soldiers
+            if(difficulty >= 3){
+                System.out.println("Since your difficulty is 3+, soldiers will now be removed!");
+                if(difficulty == 5){
+                    System.out.println("Since you're level 5, you will also loose bankers!");
+                      playerLegion.removeSoldiers(randomNum-1);
+                      playerBank.removeWorkers(1);
+                }
+                else{
+                    playerLegion.removeSoldiers(1);
+                }
+                
+            }
         }
         if(archie.getHealth() == playerLegion.getSoldiers()){
             System.out.println("It's up to your soldiers for this one!");
@@ -179,49 +205,60 @@ public class MyProgram {
 
     //shop method to buy trolls
     public static void openShop(bank playerBank, dragon archie, legion playerLegion, Scanner input){
-        if(playerBank.getMoney() > 100){
-            System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Enter any other number to skip. Prices:");
-            System.out.println("[1] Banker Troll: $110");
-            System.out.println("[2] Fighter Troll: $100");
-            System.out.print("What would you like to buy? ");
-            int choice = input.nextInt();
-            if((choice != 1) && (choice !=2)){
-                System.out.println("Exiting shop!");
-            }
-            else{
-
+        boolean shopStat=false;
+        System.out.println("The shop has opened! ");
+        do{
+            System.out.print("Would you like to stay inside the shop?");
+            String nextWait = input.nextLine();
+            input.nextLine();
+            if(nextWait.equalsIgnoreCase("yes")) {
+                System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
+                System.out.println("[1] Banker Troll: $110");
+                System.out.println("[2] Fighter Troll: $100");
+                System.out.println("Your balance: $" + playerBank.getMoney());
+                System.out.print("What would you like to buy? ");
+                int choice = input.nextInt();
+                input.nextLine();
                 System.out.print("How many would you like to buy? ");
                 int quantity = input.nextInt();
-                //if troll is selected
-                if(choice == 1){
+                input.nextLine();
+                if(choice==1){
                     int total = quantity * 110;
                     if(total > playerBank.getMoney()){
-                        System.out.println("You have attempted buying something that exceeds your wallet. The bank has forclosed your account and the shop is now shut down. Proceeding to next battle...");
+                        System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
+                        playerBank.removeMoney(50);
+                        shopStat = true;
                     } 
                     else{
                         playerBank.removeMoney(total);
                         playerBank.addWorkers(quantity);
                         System.out.println("You have purchased " + quantity + " banker trolls. Your balance is now $" + playerBank.getMoney());
-                        System.out.println("You now have " + playerBank.getWorkers() + " banking trolls and " + playerLegion.getSoldiers() + " fighting trolls.");
                     }
                 }
-                else if(choice == 2){
+                if(choice == 2){
                     int total = quantity * 100;
                     if(total > playerBank.getMoney()){
-                        System.out.println("You have attempted buying something that exceeds your wallet. The bank has forclosed your account and the shop is now shut down. Proceeding to next battle...");
-                    }
+                        System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
+                        playerBank.removeMoney(50);
+                        shopStat = true;
+                    } 
                     else{
                         playerBank.removeMoney(total);
                         playerLegion.addSoldiers(quantity);
-                        System.out.println("You have purchased " + quantity + " soldier trolls. Your balance is now $" + playerBank.getMoney());
-                        System.out.println("You now have " + playerBank.getWorkers() + " banking trolls and " + playerLegion.getSoldiers() + " fighting trolls.");
+                        System.out.println("You have purchased " + quantity + " fighter trolls. Your balance is now $" + playerBank.getMoney());
+                        
                     }
                 }
+    
+            }
+            else if(nextWait.equalsIgnoreCase("no")){
+                shopStat = true;
+            }
+            else{
+                System.out.println("Error, try again. ");
             }
         }
-        else{
-            System.out.println("You aren't eligible for the shop. Moving onto the next battle.");
-        }
+        while(!shopStat);//if false, keep shop open
     }
 
     //prints directions if player wants
@@ -326,7 +363,7 @@ public class MyProgram {
     }
 
     public static void thankYouMessage(){
-        System.out.println("╭━━━━┳╮╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮");
+        System.out.println("╭━━━━┳╮ ╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮");
         System.out.println("┃╭╮╭╮┃┃╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╯╱╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃┃");
         System.out.println("╰╯┃┃╰┫╰━┳━━┳━╮┃┃╭╮╭╮╱╭┳━━┳╮╭╮╭╯╰┳━━┳━╮╭━━┫┃╭━━┳╮╱╭┳┳━╮╭━━┫┃");
         System.out.println("╱╱┃┃╱┃╭╮┃╭╮┃╭╮┫╰╯╯┃┃╱┃┃╭╮┃┃┃┃╰╮╭┫╭╮┃╭╯┃╭╮┃┃┃╭╮┃┃╱┃┣┫╭╮┫╭╮┣╯");
