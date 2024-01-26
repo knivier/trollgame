@@ -16,13 +16,14 @@ public class MyProgram {
         do{
             String directions = input.nextLine();
             if(directions.equalsIgnoreCase("yes")) {
-                fetchDirections();
+                fetchDirections(devMode);
                 nextStep = true;
             }
             else if(directions.equalsIgnoreCase("no")){
                 nextStep = true;
             }
             else if(directions.equalsIgnoreCase("dev")){
+                System.out.println("You have entered developer mode. Fastmode enabled.");
                 nextStep = true;
                 devMode = true;
             }
@@ -92,7 +93,7 @@ public class MyProgram {
                 System.out.println("The creators of the game wish you luck");
                 break;
         }
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         //end of difficulty screen
 
         //start of first battle and shop experience.    
@@ -106,17 +107,17 @@ public class MyProgram {
         System.out.println("You have " + days + " days left to fight him.");
         System.out.println("You send your trolls to fight him.");
         gap(2);
-        Thread.sleep(5000);
+        delay(devMode, 5000);
         dragon archie = new dragon();
         if(playerLegion.getSoldiers() > archie.getHealth()){
             System.out.println("You won that battle!"); //always win first battle
             gap(2);
             playerBank.addMoney(calculateWinnings(playerBank, archie));
         }
-        Thread.sleep(5000);
+        delay(devMode, 5000);
         gap(2);
         openShop(playerBank, archie, playerLegion, input);
-        Thread.sleep(5000);
+        delay(devMode, 5000);
         //end of first battle and first shop experience
 
         //start of all battles and shop
@@ -126,20 +127,20 @@ public class MyProgram {
             gap(2);
             System.out.println("A new day starts once more. You have " + loop + " days left. $10 has been deposited.");
             playerBank.addMoney(10);
-            Thread.sleep(2000);
+            delay(devMode, 2000);
             gap(2);
             openBattle(playerBank, archie, playerLegion, difficulty);
-            Thread.sleep(7500);
+            delay(devMode, 7500);
             gap(2);
             openShop(playerBank, archie, playerLegion, input);
-            Thread.sleep(5000);
+            delay(devMode, 2000);
         }
         openBattle(playerBank, archie, playerLegion, difficulty); //the final battle
         //end of final battles
 
         //displaying final results and thank you message
         System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
-        displayResults(playerBank, playerLegion, difficulty, tempDays);
+        displayResults(playerBank, playerLegion, difficulty, tempDays, devMode);
         thankYouMessage();
     }//end of main method    
 
@@ -275,33 +276,33 @@ public class MyProgram {
     }
 
     //prints directions if player wants
-    public static void fetchDirections() throws InterruptedException{
+    public static void fetchDirections(boolean devMode) throws InterruptedException{
         System.out.println("------------------------");
         System.out.println("        DIRECTIONS      ");
         gap(2);
         System.out.println("The directions for the troll game are simple: ");
         System.out.println("Gain as much money as you can.");
-        Thread.sleep(1000);
+        delay(devMode, 2000);
         gap(1);
         System.out.println("The actual task is more difficult. You are the leader of trolls. ");
         System.out.println("You start with $200 and some battle and banker trolls. ");
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         gap(1);
         System.out.println("Banker trolls give you money everytime you battle.");
         System.out.println("The more banker trolls you have, the higher your bonus is.");
         System.out.println("This bonus is a multiplier that is put onto your total amount of money, everytime you win!");
-        Thread.sleep(5000);
+        delay(devMode, 2000);
         gap(1);
         System.out.println("Battle trolls are part of your legion.");
         System.out.println("The more battle trolls you have, the more difficult opponents you face.");
         System.out.println("But the more difficult your opponent is, the more money you also earn!");
-        Thread.sleep(5000);
+        delay(devMode, 2000);
         gap(2);
         System.out.println("Your opponent is an immortal dragon named 'Archie'. ");
         System.out.println("If you have more trolls than Archie's health, you win!");
         System.out.println("If you have less trolls, you loose.");
         System.out.println("If you have the same amount of health, it's a 50/50 shot!");
-        Thread.sleep(5000);
+        delay(devMode, 2000);
         gap(2);
         System.out.println("Archie's health is random, but the higher difficulty select later, the more difficult he is.");
         System.out.println("You are reccomended to start at Level 1 for your first match.");
@@ -315,27 +316,27 @@ public class MyProgram {
     }
     //directions screen method
 
-    public static void displayResults(bank playerBank, legion playerLegion, int difficulty, int tempDays) throws InterruptedException{
+    public static void displayResults(bank playerBank, legion playerLegion, int difficulty, int tempDays, boolean devMode) throws InterruptedException{
         System.out.println("The results have been called! ");
         System.out.println("The goal was to earn as much money as you can in less time.");
         System.out.println("Let's see if you got a nice medal!");
         System.out.println("You can get a bronze, silver, gold, diamond, imperial diamond, obsidian and imperial obsidian reward.");
         gap(3);
         System.out.print("Your choosen difficulty was: ");
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         System.out.println(difficulty);
         gap(2);
         System.out.print("Your choosen days to battle was: ");
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         System.out.println(tempDays);
         gap(2);
         System.out.print("You earned a total of: $");
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         System.out.println(playerBank.getMoney());
         gap(2);
         System.out.println("Now, it's time for your money earned per day average.");
         System.out.println("You earned: $" + playerBank.getMoney() + " in " + tempDays + " days. Your average $/day was...");
-        Thread.sleep(2000);
+        delay(devMode, 2000);
         double dailyAverage = playerBank.getMoney() / tempDays;
         System.out.println("$" + dailyAverage + " per day average!");
         if(dailyAverage < 100){
