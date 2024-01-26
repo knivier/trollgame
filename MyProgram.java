@@ -28,7 +28,7 @@ public class MyProgram {
                 devMode = true;
             }
             else{
-                System.out.println("Invalid entry. Please try again: ");
+                System.out.print("Invalid entry. Please try again: ");
             }
         }
         while(nextStep == false);
@@ -36,6 +36,7 @@ public class MyProgram {
         //end of directions screen
 
         //number of days selection
+        System.out.println("Now for how many in-game days you want to play for. The more days you have, the more money you can earn.");
         System.out.print("Please enter the number of days you want to play for:  ");
         int days;
         while (true) {
@@ -54,7 +55,7 @@ public class MyProgram {
         //end number of days selection
 
         //start of difficulty + directions screen
-        System.out.println("WARNING: It is HIGHLY reccomended you master level 1 before going to any other level.");
+        System.out.println("WARNING: It is HIGHLY reccomended you master level 1 before going to any other level ");
         delay(devMode, 500); //Bigger delay so user can read the warning.
         System.out.println("[1] You win most of the time, it's difficult to screw up");
         delay(devMode, 500);
@@ -67,14 +68,20 @@ public class MyProgram {
         System.out.println("[5] Cry");
         delay(devMode, 500);
         System.out.print("What difficulty would you like? Enter the corresponding number: ");
-        int difficulty = input.nextInt();
-        do{
-            System.out.print("Re-enter your number ");
-            difficulty = input.nextInt();
-
+        int difficulty;
+        while (true) {
+            try {
+                difficulty = Integer.parseInt(input.nextLine());
+                if (difficulty <=6 && difficulty > 0) {
+                    break;
+                } else {
+                    System.out.println("Invalid selection. Please try again!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. Please enter a valid number: ");
+            }
         }
-        while(difficulty > 5 || difficulty < 1);
-        
+
         switch (difficulty) {
             case 1:
                 System.out.println("You have choosen level 1, the easiest level");
@@ -222,7 +229,7 @@ public class MyProgram {
         boolean shopStat=false;
         System.out.println("The shop has opened! ");
         do{
-            System.out.print("Would you like to stay inside the shop?");
+            System.out.print("Would you like to stay inside the shop? ");
             String nextWait = input.nextLine();
             input.nextLine();
             if(nextWait.equalsIgnoreCase("yes")) {
