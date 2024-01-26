@@ -10,6 +10,7 @@ public class MyProgram {
         //start of directions screen
         Thread.sleep(1000);
         boolean nextStep = false;
+        boolean devMode = false;
         System.out.println("Welcome to the troll game!");
         System.out.print("Would you like directions? Enter 'yes' or 'no': ");
         do{
@@ -20,6 +21,10 @@ public class MyProgram {
             }
             else if(directions.equalsIgnoreCase("no")){
                 nextStep = true;
+            }
+            else if(directions.equalsIgnoreCase("dev")){
+                nextStep = true;
+                devMode = true;
             }
             else{
                 System.out.println("Invalid entry. Please try again: ");
@@ -32,7 +37,6 @@ public class MyProgram {
         //number of days selection
         System.out.print("Please enter the number of days you want to play for:  ");
         int days;
-        
         while (true) {
             try {
                 days = Integer.parseInt(input.nextLine());
@@ -50,17 +54,17 @@ public class MyProgram {
 
         //start of difficulty + directions screen
         System.out.println("WARNING: It is HIGHLY reccomended you master level 1 before going to any other level.");
-        Thread.sleep(500); //Bigger delay so user can read the warning.
+        delay(devMode, 500); //Bigger delay so user can read the warning.
         System.out.println("[1] You win most of the time, it's difficult to screw up");
-        Thread.sleep(500);
+        delay(devMode, 500);
         System.out.println("[2] Max difficulty reccomended, you'll suffer many losses");
-        Thread.sleep(500);
+        delay(devMode, 500);
         System.out.println("[3] You'll have mental breakdowns, the odds are now against you");
-        Thread.sleep(500);
+        delay(devMode, 500);
         System.out.println("[4] We won't pay for your therapist");
-        Thread.sleep(500);
+        delay(devMode, 500);
         System.out.println("[5] Cry");
-        Thread.sleep(500);
+        delay(devMode, 500);
         System.out.print("What difficulty would you like? Enter the corresponding number: ");
         int difficulty = input.nextInt();
         do{
@@ -200,6 +204,15 @@ public class MyProgram {
     public static void gap(int x){
         for(int i=0; i!=x; i++){
             System.out.println();
+        }
+    }
+    
+    public static void delay(boolean condition, int x) throws InterruptedException{
+        if(condition){
+            Thread.sleep(0);
+        }
+        else{
+            Thread.sleep(x);
         }
     }
 
