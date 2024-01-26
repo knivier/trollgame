@@ -130,34 +130,89 @@ public class MyProgram {
         //start of all battles and shop
         System.out.println("It'll be repetitive from here. You now have " + days + " days left to finish this");
         //repeating battle screen
+        int streak=0;
         for(int loop = days; loop !=0; loop--){
             gap(2);
             System.out.println("A new day starts once more. You have " + loop + " days left. $10 has been deposited.");
             playerBank.addMoney(10);
             delay(devMode, 2000);
             gap(2);
-            openBattle(playerBank, archie, playerLegion, difficulty);
+            streak += openBattle(playerBank, archie, playerLegion, difficulty, streak);
             delay(devMode, 7500);
             gap(2);
             openShop(playerBank, archie, playerLegion, input);
             delay(devMode, 2000);
+            if(streak > 4){
+                bounty death = new bounty();
+                openBounty(playerBank, playerLegion, difficulty, death, input);
+                openShop(playerBank, archie, playerLegion, input);
+                streak = 0;
+                //check streak and initiate hunt     
         }
-        openBattle(playerBank, archie, playerLegion, difficulty); //the final battle
+        openBattle(playerBank, archie, playerLegion, difficulty, streak); //the final battle
         //end of final battles
 
         //displaying final results and thank you message
         System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
         displayResults(playerBank, playerLegion, difficulty, tempDays, devMode);
         thankYouMessage();
+    }
     }//end of main method    
+
+    public static void openBounty(bank playerBank, legion playerLegion, int difficulty, bounty death, Scanner input){
+        System.out.println("A bounty has started! ");
+        death.calcHoundHealth(playerLegion.getSoldiers());
+        System.out.println("A hellhound spawns, towering over any previous dragon you've ever met.");
+        System.out.println("You can flee but it's risky. You can also fight him for a massive bonus. If you die, it's game over. What will you do? ");
+        System.out.println("If you choose to flee, enter 'flee'. If you choose to fight, enter 'fight': ");
+        boolean choiceMade = false;        
+        do{
+            String choice = input.nextLine();
+            if(choice.equalsIgnoreCase("flee")) {
+                choiceMade = true;
+                int random = (int) (Math.random()*1) + 2;
+                if(random == 1){
+                    System.out.println("You get away with no losses!");
+                }
+                else if(random ==2){
+                    System.out.println("The hellhound catches you anyways, but you only loose some soldiers and money.");
+                    playerBank.removeMoney(1000);
+                    int lost = (int) Math.random()*2 + playerLegion.getSoldiers()-1;
+                    playerLegion.removeSoldiers(lost);
+                }
+            }
+            else if(choice.equalsIgnoreCase("fight")){
+                choiceMade = true;
+                System.out.println("You choose to fight, it will take you and your trolls.");
+                int random = (int) Math.random()*1 + 2;
+                if(random == 1){
+                    System.out.println("You win with a massive bonus!");
+                    playerBank.addMoney(1000 * playerLegion.getSoldiers());
+                    System.out.println("You now have $" + playerBank.getMoney());
+                }
+                else if(random == 2){
+                    System.out.println("GAME OVER. YOU LOST.");
+                    System.out.println("All your money ever earned was burned, and you were executed by the hunters.");
+                    System.exit(0);
+                }
+            }
+            else{
+                System.out.print("Invalid entry. Please try again: ");
+            }
+        }
+        while(!choiceMade);
+
+    }
+
 
     /*
      * @param datatype Requires the correct datatype inputs
      * This method opens a new battle with the player and dragon
      * Difficulty is randomly generated
      */
-    public static void openBattle(bank playerBank, dragon archie, legion playerLegion, int difficulty){
+    public static int openBattle(bank playerBank, dragon archie, legion playerLegion, int difficulty, int streak){
         int randomNum = (int)(Math.random() * playerLegion.getSoldiers() + difficulty);
+        int winNum= 0;
         System.out.println("Archie has respawned at " + randomNum + " health.");
         System.out.println("You have " + playerLegion.getSoldiers() + " soldiers.");
         archie.setHealth(randomNum);
@@ -165,6 +220,7 @@ public class MyProgram {
             System.out.println("You loose!");
             playerBank.removeMoney(playerLegion.getSoldiers()*10);
             System.out.println("You now have $" + playerBank.getMoney());
+            winNum = streak-0;
             if(difficulty >= 3){
                 System.out.println("Since your difficulty is 3+, soldiers will now be removed!");
                 if(difficulty == 5){
@@ -178,6 +234,7 @@ public class MyProgram {
                 
             }
         }
+
         if(archie.getHealth() == playerLegion.getSoldiers()){
             System.out.println("It's up to your soldiers for this one!");
             int winChance = (int)(Math.random()*2);
@@ -185,18 +242,22 @@ public class MyProgram {
                 System.out.println("You loose!");
                 playerBank.removeMoney(playerLegion.getSoldiers()*10);
                 System.out.println("You now have $" + playerBank.getMoney());
+                winNum = streak-0;
             }
             if(winChance == 1){
                 System.out.println("You win!");
                 playerBank.addMoney(calculateWinnings(playerBank, archie));
                 System.out.println("You now have $" + playerBank.getMoney());
+                winNum=1;
             }
         }
         if(archie.getHealth() < playerLegion.getSoldiers()){
             System.out.println("You win with no losses!");
             playerBank.addMoney(calculateWinnings(playerBank, archie));
             System.out.println("You now have $" + playerBank.getMoney());
+            winNum=2; //bonus streak because battle was easy
         }
+        return winNum;
     }
     
     //calculates total winnings with bonus
@@ -215,6 +276,7 @@ public class MyProgram {
         }
     }
     
+    //delays code
     public static void delay(boolean condition, int x) throws InterruptedException{
         if(condition){
             Thread.sleep(0);
@@ -231,7 +293,6 @@ public class MyProgram {
         do{
             System.out.print("Would you like to stay inside the shop? ");
             String nextWait = input.nextLine();
-            input.nextLine();
             if(nextWait.equalsIgnoreCase("yes")) {
                 System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
                 System.out.println("[1] Banker Troll: $110");
