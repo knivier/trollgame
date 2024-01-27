@@ -11,5 +11,9 @@ However if you have the same number of soldiers as his randomly generated health
 If you have less soldiers than his health, you loose and also you loose money.
 The more soldiers you have than his health, you gain money!
 
+If you have a consistant win streak (usually with the easiest levels), a bounty starts. You can choose to flee or fight the hellhound from which the bounty spawns.
+If you defeat the hellhound, you gain immense amounts of money, speeding up your progress. However if you loose, you're executed and it's game over.
+If you choose to flee, the odds are even in escaping. You loose less people and money if you dont make it back intact.
+
 Each day, you gain $10. Enjoy the game!
 

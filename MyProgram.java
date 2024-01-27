@@ -153,10 +153,10 @@ public class MyProgram {
         //end of final battles
 
         //displaying final results and thank you message
-        System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
+    }
+    System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
         displayResults(playerBank, playerLegion, difficulty, tempDays, devMode);
         thankYouMessage();
-    }
     }//end of main method    
 
     public static void openBounty(bank playerBank, legion playerLegion, int difficulty, bounty death, Scanner input){
@@ -164,13 +164,14 @@ public class MyProgram {
         death.calcHoundHealth(playerLegion.getSoldiers());
         System.out.println("A hellhound spawns, towering over any previous dragon you've ever met.");
         System.out.println("You can flee but it's risky. You can also fight him for a massive bonus. If you die, it's game over. What will you do? ");
-        System.out.println("If you choose to flee, enter 'flee'. If you choose to fight, enter 'fight': ");
+        System.out.print("If you choose to flee, enter 'flee'. If you choose to fight, enter 'fight': ");
         boolean choiceMade = false;        
         do{
             String choice = input.nextLine();
             if(choice.equalsIgnoreCase("flee")) {
                 choiceMade = true;
-                int random = (int) (Math.random()*1) + 2;
+                double random1 = Math.random();
+                int random = (int) (random1 * 2) + 1;
                 if(random == 1){
                     System.out.println("You get away with no losses!");
                 }
@@ -184,7 +185,8 @@ public class MyProgram {
             else if(choice.equalsIgnoreCase("fight")){
                 choiceMade = true;
                 System.out.println("You choose to fight, it will take you and your trolls.");
-                int random = (int) Math.random()*1 + 2;
+                double random1 = Math.random();
+                int random = (int) (random1 * 2) + 1;
                 if(random == 1){
                     System.out.println("You win with a massive bonus!");
                     playerBank.addMoney(1000 * playerLegion.getSoldiers());
