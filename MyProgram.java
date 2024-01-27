@@ -293,9 +293,9 @@ public class MyProgram {
         boolean shopStat=false;
         System.out.println("The shop has opened! ");
         do{
-            System.out.print("Would you like to stay inside the shop? ");
+            System.out.print("Enter commands: 'exit' to exit, 'purchase' to purchase something, or 'balance' for your wallet balance. ");
             String nextWait = input.nextLine();
-            if(nextWait.equalsIgnoreCase("yes")) {
+            if(nextWait.equalsIgnoreCase("purchase")) {
                 System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
                 System.out.println("[1] Banker Troll: $110");
                 System.out.println("[2] Fighter Troll: $100");
@@ -303,6 +303,10 @@ public class MyProgram {
                 System.out.print("What would you like to buy? ");
                 int choice = input.nextInt();
                 input.nextLine();
+                if(choice > 2){
+                    System.out.println("Error, you can't purchase that!");
+                }
+                else{
                 System.out.print("How many would you like to buy? ");
                 int quantity = input.nextInt();
                 input.nextLine();
@@ -333,10 +337,13 @@ public class MyProgram {
                         
                     }
                 }
-    
             }
-            else if(nextWait.equalsIgnoreCase("no")){
+            }
+            else if(nextWait.equalsIgnoreCase("exit")){
                 shopStat = true;
+            }
+            else if(nextWait.equalsIgnoreCase("balance")){
+                System.out.println("You currently have $" + playerBank.getMoney());
             }
             else{
                 System.out.println("Error, try again. ");
