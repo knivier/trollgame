@@ -293,7 +293,10 @@ public class MyProgram {
         boolean shopStat=false;
         System.out.println("The shop has opened! ");
         do{
-            System.out.print("Enter commands: 'exit' to exit, 'purchase' to purchase something, or 'balance' for your wallet balance. ");
+            System.out.println("['Purchase'] = Enter the shop to purchase something");
+            System.out.println("['Balance'] = Retrieves your current valance");
+            System.out.println("['Exit'] = Exit the shop");
+            System.out.println("Enter a command: ");
             String nextWait = input.nextLine();
             if(nextWait.equalsIgnoreCase("purchase")) {
                 System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
@@ -346,7 +349,7 @@ public class MyProgram {
                 System.out.println("You currently have $" + playerBank.getMoney());
             }
             else{
-                System.out.println("Error, try again. ");
+                System.out.println("Invalid input, please try again! ");
             }
         }
         while(!shopStat);//if false, keep shop open
