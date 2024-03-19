@@ -31,7 +31,7 @@ public class MyProgram {
                 System.out.print("Invalid entry. Please try again: ");
             }
         }
-        while(nextStep == false);
+        while(!nextStep);
         gap(1);
         //end of directions screen
 
@@ -149,9 +149,6 @@ public class MyProgram {
                 streak = 0;
                 //check streak and initiate hunt     
             }
-            openBattle(playerBank, archie, playerLegion, difficulty, streak); //the final battle
-            //end of final battles
-
             //displaying final results and thank you message
         }
         System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
@@ -177,26 +174,34 @@ public class MyProgram {
                 }
                 else if(random ==2){
                     System.out.println("The hellhound catches you anyways, but you only loose some soldiers and money.");
-                    playerBank.removeMoney(1000);
-                    int lost = (int) Math.random()*2 + playerLegion.getSoldiers()-1;
+                    System.out.println("You lost $" + difficulty*1000);
+                    playerBank.removeMoney(1000*difficulty);
+                    int lost = (int) (Math.random() * difficulty) + playerLegion.getSoldiers()-1;
                     playerLegion.removeSoldiers(lost);
                 }
             }
-
             else if(choice.equalsIgnoreCase("fight")){
                 choiceMade = true;
-                System.out.println("You choose to fight, it will take you and your trolls.");
+                System.out.println("You choose to fight. Good luck!");
                 double random1 = Math.random();
                 int random = (int) (random1 * 2) + 1;
                 if(random == 1){
                     System.out.println("You win with a massive bonus!");
-                    playerBank.addMoney(1000 * playerLegion.getSoldiers());
+                    playerBank.addMoney(1000 * playerLegion.getSoldiers() +100*difficulty); //difficulty based bonus
                     System.out.println("You now have $" + playerBank.getMoney());
                 }
                 else if(random == 2){
-                    System.out.println("GAME OVER. YOU LOST.");
-                    System.out.println("All your money ever earned was burned, and you were executed by the hunters.");
-                    System.exit(0);
+                    if(difficulty>=3){
+                        System.out.println("You lost, and since your difficulty was " + difficulty + ", the game is over.");
+                        System.out.println("You were executed, and all your trolls were sent to prison. GAME OVER");
+                        System.exit(0);
+                    }
+                    else{
+                        int moneyLost = (int) (Math.random()*playerBank.getMoney())+100; //min 100 max 1k lost
+                        System.out.println("You lost $" + moneyLost+(difficulty*100));
+                        playerBank.removeMoney(moneyLost+(difficulty*100));
+                        break;
+                    }
                 }
             }
             else{
@@ -223,7 +228,7 @@ public class MyProgram {
             System.out.println("You loose!");
             playerBank.removeMoney(playerLegion.getSoldiers()*10);
             System.out.println("You now have $" + playerBank.getMoney());
-            winNum = streak-0;
+            winNum = streak;
             if(difficulty >= 3){
                 System.out.println("Since your difficulty is 3+, soldiers will now be removed!");
                 if(difficulty == 5){
@@ -245,7 +250,7 @@ public class MyProgram {
                 System.out.println("You loose!");
                 playerBank.removeMoney(playerLegion.getSoldiers()*10);
                 System.out.println("You now have $" + playerBank.getMoney());
-                winNum = streak-0;
+                winNum = streak;
             }
             if(winChance == 1){
                 System.out.println("You win!");
@@ -299,10 +304,16 @@ public class MyProgram {
                 if (errorCount > 10) {
                     System.out.println("Your inputs haven't matched cases for more than 10 attempts.");
                     System.out.println("This may be a result of a development error.");
-                    System.out.println("If you are a user and this occurs, please inform a developer on GitHhub by opening an issue");
+                    System.out.println("If you are a user and this occurs, please inform a developer on GitHub by opening an issue");
                     System.out.println("Error type: Scanner issue detected. Exiting program, goodbye!");
                     System.exit(0);
                 }
+                if(playerBank.getMoney() < 100){
+                    System.out.println("Your balance is lower than $100. Proceeding to the next battle...");
+                    break;
+
+                }
+
                 System.out.println("[1] Buy = Enter the shop to purchase something");
                 System.out.println("[2] Balance = retrieves your current valance");
                 System.out.println("[3] Exit = Exit the shop");
@@ -412,6 +423,12 @@ public class MyProgram {
     }
     //directions screen method
 
+    /*
+    No additional constraints
+    Display results given player-bank, legion, difficulty, tempdays for bool and devmode
+    throws interrupted exception for delay and organized
+
+     */
     public static void displayResults(bank playerBank, legion playerLegion, int difficulty, int tempDays, boolean devMode) throws InterruptedException{
         System.out.println("The results have been called! ");
         System.out.println("The goal was to earn as much money as you can in less time.");
@@ -471,7 +488,10 @@ public class MyProgram {
             System.out.println("    `-.....-'");
         }
     }
-
+    /*
+    Method only activates at end of run
+    No additional constraints -_-
+     */
     public static void thankYouMessage(){
         System.out.println("╭━━━━┳╮ ╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╮╱╱╱╱╱╱╱╱╭╮╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭╮");
         System.out.println("┃╭╮╭╮┃┃╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃╭╯╱╱╱╱╱╱╱╱┃┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃┃");
