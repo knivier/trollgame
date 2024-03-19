@@ -1,7 +1,7 @@
 /**
  *The Troll Game
  *Created by Knivier/AG
- *Read the docs for more information on Github
+ *Read the docs for more information on GitHub
  */
 import java.util.Scanner;
 public class MyProgram {
@@ -23,7 +23,7 @@ public class MyProgram {
                 nextStep = true;
             }
             else if(directions.equalsIgnoreCase("dev")){
-                System.out.println("You have entered developer mode. Fastmode enabled.");
+                System.out.println("You have entered developer mode. Fast mode enabled.");
                 nextStep = true;
                 devMode = true;
             }
@@ -55,11 +55,11 @@ public class MyProgram {
         //end number of days selection
 
         //start of difficulty + directions screen
-        System.out.println("WARNING: It is HIGHLY reccomended you master level 1 before going to any other level ");
+        System.out.println("WARNING: It is HIGHLY recommended you master level 1 before going to any other level ");
         delay(devMode, 500); //Bigger delay so user can read the warning.
         System.out.println("[1] You win most of the time, it's difficult to screw up");
         delay(devMode, 500);
-        System.out.println("[2] Max difficulty reccomended, you'll suffer many losses");
+        System.out.println("[2] Max difficulty recommended, you'll suffer many losses");
         delay(devMode, 500);
         System.out.println("[3] You'll have mental breakdowns, the odds are now against you");
         delay(devMode, 500);
@@ -84,19 +84,19 @@ public class MyProgram {
 
         switch (difficulty) {
             case 1:
-                System.out.println("You have choosen level 1, the easiest level");
+                System.out.println("You have chosen level 1, the easiest level");
                 break;
             case 2:
-                System.out.println("You have choosen level 2");
+                System.out.println("You have chosen level 2");
                 break;
             case 3:
-                System.out.println("You have choosen level 3");
+                System.out.println("You have chosen level 3");
                 break;
             case 4:
-                System.out.println("You have choosen level 4");
+                System.out.println("You have chosen level 4");
                 break;
             case 5:
-                System.out.println("You have choosen level 5.");
+                System.out.println("You have chosen level 5.");
                 System.out.println("The creators of the game wish you luck");
                 break;
         }
@@ -148,16 +148,16 @@ public class MyProgram {
                 openShop(playerBank, archie, playerLegion, input);
                 streak = 0;
                 //check streak and initiate hunt     
-        }
-        openBattle(playerBank, archie, playerLegion, difficulty, streak); //the final battle
-        //end of final battles
+            }
+            openBattle(playerBank, archie, playerLegion, difficulty, streak); //the final battle
+            //end of final battles
 
-        //displaying final results and thank you message
-    }
-    System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
+            //displaying final results and thank you message
+        }
+        System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
         displayResults(playerBank, playerLegion, difficulty, tempDays, devMode);
         thankYouMessage();
-    }//end of main method    
+    }//end of main method
 
     public static void openBounty(bank playerBank, legion playerLegion, int difficulty, bounty death, Scanner input){
         System.out.println("A bounty has started! ");
@@ -165,7 +165,7 @@ public class MyProgram {
         System.out.println("A hellhound spawns, towering over any previous dragon you've ever met.");
         System.out.println("You can flee but it's risky. You can also fight him for a massive bonus. If you die, it's game over. What will you do? ");
         System.out.print("If you choose to flee, enter 'flee'. If you choose to fight, enter 'fight': ");
-        boolean choiceMade = false;        
+        boolean choiceMade = false;
         do{
             String choice = input.nextLine();
             if(choice.equalsIgnoreCase("flee")) {
@@ -182,6 +182,7 @@ public class MyProgram {
                     playerLegion.removeSoldiers(lost);
                 }
             }
+
             else if(choice.equalsIgnoreCase("fight")){
                 choiceMade = true;
                 System.out.println("You choose to fight, it will take you and your trolls.");
@@ -227,13 +228,13 @@ public class MyProgram {
                 System.out.println("Since your difficulty is 3+, soldiers will now be removed!");
                 if(difficulty == 5){
                     System.out.println("Since you're level 5, you will also loose bankers!");
-                      playerLegion.removeSoldiers(randomNum-1);
-                      playerBank.removeWorkers(1);
+                    playerLegion.removeSoldiers(randomNum-1);
+                    playerBank.removeWorkers(1);
                 }
                 else{
                     playerLegion.removeSoldiers(1);
                 }
-                
+
             }
         }
 
@@ -261,7 +262,7 @@ public class MyProgram {
         }
         return winNum;
     }
-    
+
     //calculates total winnings with bonus
     public static double calculateWinnings(bank playerBank, dragon archie){
         double winnings = archie.getHealth() * 50;
@@ -277,7 +278,7 @@ public class MyProgram {
             System.out.println();
         }
     }
-    
+
     //delays code
     public static void delay(boolean condition, int x) throws InterruptedException{
         if(condition){
@@ -292,64 +293,79 @@ public class MyProgram {
     public static void openShop(bank playerBank, dragon archie, legion playerLegion, Scanner input){
         boolean shopStat=false;
         System.out.println("The shop has opened! ");
-        do{
-            System.out.println("['Purchase'] = Enter the shop to purchase something");
-            System.out.println("['Balance'] = Retrieves your current valance");
-            System.out.println("['Exit'] = Exit the shop");
-            System.out.println("Enter a command: ");
-            String nextWait = input.nextLine();
-            if(nextWait.equalsIgnoreCase("purchase")) {
-                System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
-                System.out.println("[1] Banker Troll: $110");
-                System.out.println("[2] Fighter Troll: $100");
-                System.out.println("Your balance: $" + playerBank.getMoney());
-                System.out.print("What would you like to buy? ");
-                int choice = input.nextInt();
-                input.nextLine();
-                if(choice > 2){
-                    System.out.println("Error, you can't purchase that!");
+        int errorCount = 0;
+        do {
+            try {
+                if (errorCount > 10) {
+                    System.out.println("Your inputs haven't matched cases for more than 10 attempts.");
+                    System.out.println("This may be a result of a development error.");
+                    System.out.println("If you are a user and this occurs, please inform a developer on GitHhub by opening an issue");
+                    System.out.println("Error type: Scanner issue detected. Exiting program, goodbye!");
+                    System.exit(0);
                 }
-                else{
-                System.out.print("How many would you like to buy? ");
-                int quantity = input.nextInt();
-                input.nextLine();
-                if(choice==1){
-                    int total = quantity * 110;
-                    if(total > playerBank.getMoney()){
-                        System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
-                        playerBank.removeMoney(50);
-                        shopStat = true;
-                    } 
-                    else{
-                        playerBank.removeMoney(total);
-                        playerBank.addWorkers(quantity);
-                        System.out.println("You have purchased " + quantity + " banker trolls. Your balance is now $" + playerBank.getMoney());
+                System.out.println("[1] Buy = Enter the shop to purchase something");
+                System.out.println("[2] Balance = retrieves your current valance");
+                System.out.println("[3] Exit = Exit the shop");
+                System.out.print("Enter the corresponding word or number: ");
+                String nextWait = input.nextLine();
+                //if nextWait == purchase something
+                if (nextWait.equalsIgnoreCase("buy")  || (Integer.parseInt(nextWait) == 1)) {
+                    System.out.println("You may now purchase trolls. Enter 1 for banker or 2 for fighter. Prices:");
+                    System.out.println("[1] Banker Troll: $110");
+                    System.out.println("[2] Fighter Troll: $100");
+                    System.out.println("Your balance: $" + playerBank.getMoney());
+                    System.out.print("What would you like to buy? ");
+                    int choice = input.nextInt();
+                    input.nextLine();
+                    if (choice > 2 || choice <= 0) {
+                        System.out.println("Error, you can't purchase that!");
+                        errorCount++;
+                        continue;
+                    } else {
+                        System.out.print("How many would you like to buy? ");
+                        int quantity = input.nextInt();
+                        input.nextLine();
+                        if (choice == 1) {
+                            int total = quantity * 110;
+                            if (total > playerBank.getMoney()) {
+                                System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
+                                playerBank.removeMoney(50);
+                                shopStat = true;
+                            } else {
+                                playerBank.removeMoney(total);
+                                playerBank.addWorkers(quantity);
+                                System.out.println("You have purchased " + quantity + " banker trolls. Your balance is now $" + playerBank.getMoney());
+                            }
+                        }
+                        if (choice == 2) {
+                            int total = quantity * 100;
+                            if (total > playerBank.getMoney()) {
+                                System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
+                                playerBank.removeMoney(50);
+                                shopStat = true;
+                            } else {
+                                playerBank.removeMoney(total);
+                                playerLegion.addSoldiers(quantity);
+                                System.out.println("You have purchased " + quantity + " fighter trolls. Your balance is now $" + playerBank.getMoney());
+
+                            }
+                        }
                     }
+                } // if exit shop
+                else if(Integer.parseInt(nextWait) == 3) {
+                    shopStat = true;
+                    System.out.println("You've exited the shop");
+                } //if return bal
+                else if (Integer.parseInt(nextWait) == 2) {
+                    System.out.println("You currently have $" + playerBank.getMoney());
+                } else {
+                    System.out.println("Invalid input, please try again! ");
+                    errorCount++;
                 }
-                if(choice == 2){
-                    int total = quantity * 100;
-                    if(total > playerBank.getMoney()){
-                        System.out.println("You have been fined $50 for attempting an overdraft. The bank has temporarily closed your account and the shop is now shut down. Proceeding to next battle...");
-                        playerBank.removeMoney(50);
-                        shopStat = true;
-                    } 
-                    else{
-                        playerBank.removeMoney(total);
-                        playerLegion.addSoldiers(quantity);
-                        System.out.println("You have purchased " + quantity + " fighter trolls. Your balance is now $" + playerBank.getMoney());
-                        
-                    }
-                }
-            }
-            }
-            else if(nextWait.equalsIgnoreCase("exit")){
-                shopStat = true;
-            }
-            else if(nextWait.equalsIgnoreCase("balance")){
-                System.out.println("You currently have $" + playerBank.getMoney());
-            }
-            else{
+
+            } catch(NumberFormatException e){
                 System.out.println("Invalid input, please try again! ");
+                errorCount++;
             }
         }
         while(!shopStat);//if false, keep shop open
@@ -385,7 +401,7 @@ public class MyProgram {
         delay(devMode, 2000);
         gap(2);
         System.out.println("Archie's health is random, but the higher difficulty select later, the more difficult he is.");
-        System.out.println("You are reccomended to start at Level 1 for your first match.");
+        System.out.println("You are recommended to start at Level 1 for your first match.");
         gap(1);
         System.out.println("REMEMBER, THE GOAL IS TO EARN AS MUCH MONEY AS POSSIBLE!");
         System.out.println("Good luck!");
@@ -402,11 +418,11 @@ public class MyProgram {
         System.out.println("Let's see if you got a nice medal!");
         System.out.println("You can get a bronze, silver, gold, diamond, imperial diamond, obsidian and imperial obsidian reward.");
         gap(3);
-        System.out.print("Your choosen difficulty was: ");
+        System.out.print("Your chosen difficulty was: ");
         delay(devMode, 2000);
         System.out.println(difficulty);
         gap(2);
-        System.out.print("Your choosen days to battle was: ");
+        System.out.print("Your chosen days to battle was: ");
         delay(devMode, 2000);
         System.out.println(tempDays);
         gap(2);
@@ -443,7 +459,7 @@ public class MyProgram {
             System.out.println("|@@@@|  A  |####|");
             System.out.println("|@@@@|  R  |####|");
             System.out.println(" |@@@|  D  |###| ");
-            System.out.println("  `@@|_____|##'");    
+            System.out.println("  `@@|_____|##'");
             System.out.println("       (O)");
             System.out.println("   .-'''''-.");
             System.out.println("  .'  * * *  `.");
