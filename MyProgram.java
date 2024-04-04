@@ -109,31 +109,35 @@ public class MyProgram {
         //first battle
         System.out.println("Welcome to your first battle! A new day starts.");
         gap(2);
-        days--; //decrement days left that user initially selected.
-        System.out.println("You encounter Archie.");
-        System.out.println("You have " + days + " days left to fight him.");
-        System.out.println("You send your trolls to fight him.");
-        gap(2);
-        delay(devMode, 5000);
         dragon archie = new dragon();
-        if(playerLegion.getSoldiers() > archie.getHealth()){
-            System.out.println("You won that battle!"); //always win first battle
+        if(difficulty==1){ //beginner difficulty
+            days--; //decrement days left that user initially selected.
+            System.out.println("You encounter Archie.");
+            System.out.println("You have " + days + " days left to fight him.");
+            System.out.println("You send your trolls to fight him.");
             gap(2);
-            playerBank.addMoney(calculateWinnings(playerBank, archie));
-        }
-        delay(devMode, 5000);
-        gap(2);
-        openShop(playerBank, archie, playerLegion, input);
-        delay(devMode, 5000);
-        //end of first battle and first shop experience
+            delay(devMode, 5000);
 
-        //start of all battles and shop
-        System.out.println("It'll be repetitive from here. You now have " + days + " days left to finish this");
+            if(playerLegion.getSoldiers() > archie.getHealth()){
+                System.out.println("You won that battle!"); //always win first battle
+                gap(2);
+                playerBank.addMoney(calculateWinnings(playerBank, archie));
+            }
+            delay(devMode, 5000);
+            gap(2);
+            openShop(playerBank, archie, playerLegion, input);
+            delay(devMode, 5000);
+            //end of first battle and first shop experience
+
+            //start of all battles and shop
+            System.out.println("It'll be repetitive from here. You now have " + days + " days left to finish this");
+        }
+
         //repeating battle screen
         int streak=0;
         for(int loop = days; loop !=0; loop--){
             gap(2);
-            System.out.println("A new day starts once more. You have " + loop + " days left. $10 has been deposited.");
+            System.out.println("A new day starts. You have " + loop + " days left. $10 has been deposited.");
             playerBank.addMoney(10);
             delay(devMode, 2000);
             gap(2);
