@@ -1,4 +1,4 @@
-# trollgame
+# Troll Game
 From a class project to a hobby, here's the troll game! The goal of this simple text-based game is to get as much money as you can.
 You can commandeer trolls, as your village once did them a favour. You can help, in return.
 There are currently 2 trolls. The first is a fighter troll. The more you have, the higher your opponents health is. However, you're also more likely to beat him.
