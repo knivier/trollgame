@@ -3,9 +3,13 @@
 This is because later versions may cause instability, and/or are not easy to run/modify. The oldest versions we reccomend you to go is the v4 lineup.
 **Tags:**
 [overlay]: Modifications to game print statements
+
 [remodel]: Game modifications to current features
+
 [feature]: New feature added
+
 [bug-fix]: Bug fix created for a known issues
+
 [remodel/feature]: Feature added to remodeling
 
 ---
