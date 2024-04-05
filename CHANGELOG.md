@@ -1,5 +1,6 @@
 ## Welcome to the changelog for Troll Game. Lineups are referred to specific general versions with feature additions.
 ### We always reccomend you to run the latest version. 
+This is because later versions may cause instability, and/or are not easy to run/modify. The oldest versions we reccomend you to go is the v4 lineup.
 **Tags:**
 [overlay]: Modifications to game print statements
 [remodel]: Game modifications to current features
@@ -64,3 +65,7 @@ v4.3:
 - [remodel/feature] If difficulty is 1, initial battle descriptions are added
 - [remodel/feature] If diffiuclty is 1, always win the first battle
 - [bug-fix] Archie object is instantiated outside of the loop and conditionals to improve future modifications
+
+
+### updated 4/5/2024 - adhere to license guidelines when using code. 
+### Copyright (c) 2024 Kniev
