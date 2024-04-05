@@ -18,7 +18,6 @@ If you wish to just run the game and have fun, read v4 lineups and run using the
 
 When modding, make sure to add changes from currents into your modded variant.
 
-Releases Below
-[https://github.com/knivier/trollgame/releases]([url](https://github.com/knivier/trollgame/releases))
+Releases Below: [https://github.com/knivier/trollgame/releases]([url](https://github.com/knivier/trollgame/releases))
 
 
