@@ -1,6 +1,8 @@
-## Welcome to the changelog for Troll Game. Lineups are referred to specific general versions with feature additions.
+## Welcome to the changelog for Troll Game. 
 ### We always reccomend you to run the latest version. 
+
 This is because later versions may cause instability, and/or are not easy to run/modify. The oldest versions we reccomend you to go is the v4 lineup.
+
 **Tags:**
 
 [overlay]: Modifications to game print statements
@@ -12,6 +14,8 @@ This is because later versions may cause instability, and/or are not easy to run
 [bug-fix]: Bug fix created for a known issues
 
 [remodel/feature]: Feature added to remodeling
+
+**Lineups are referred to specific general versions with feature additions.**
 
 ---
 V1 Lineup:
