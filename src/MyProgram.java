@@ -1,3 +1,4 @@
+package src;
 /**
  *The Troll Game
  *Created by Knivier/AG
@@ -5,18 +6,39 @@
  */
 import java.util.Scanner;
 public class MyProgram {
+    public static int difficulty;
+    public static boolean devMode;
+
     public static void main(String[] args) throws InterruptedException{ //throw for delay
         Scanner input = new Scanner(System.in);
         //start of directions screen
         Thread.sleep(1000);
         boolean nextStep = false;
-        boolean devMode = false;
+        boolean rankedMode = false;
         System.out.println("Welcome to the troll game!");
+        do{
+            System.out.print("Which mode would you prefer? Ranked or Adventure mode? Enter 'ranked' or 'adventure': ");
+            String mode = input.nextLine();
+            if(mode.equals("ranked")){
+                rankedMode = true;
+                break;
+            }
+            else if(mode.equals("adventure")){
+                break; //keeps ranked off
+            }
+            else{
+                System.out.println("We're sorry, but your input doesn't match the possible selections. Please try again: ");
+            }
+        }
+        while(true);
+        //rank mode setup complete
+
+
         System.out.print("Would you like directions? Enter 'yes' or 'no': ");
         do{
             String directions = input.nextLine();
             if(directions.equalsIgnoreCase("yes")) {
-                fetchDirections(devMode);
+                fetchDirections();
                 nextStep = true;
             }
             else if(directions.equalsIgnoreCase("no")){
@@ -37,15 +59,30 @@ public class MyProgram {
 
         //number of days selection
         System.out.println("Now for how many in-game days you want to play for. The more days you have, the more money you can earn.");
+        if(!rankedMode){
+            System.out.println("Your minimum days are 10, since you've entered adventure mode. ");
+        }
         System.out.print("Please enter the number of days you want to play for:  ");
         int days;
         while (true) {
             try {
                 days = Integer.parseInt(input.nextLine());
-                if (days > 3 && days <= 60) {
-                    break;
-                } else {
-                    System.out.print("Your number of days must be greater than 3 days and less than or equal to 60. Please enter a valid number again: ");
+                if(rankedMode) {
+                    if (days > 3 && days <= 20) {
+                        System.out.println("You've selected " + days + " days successfully");
+                        break;
+                    } else {
+                        System.out.print("Your number of days must be greater than 3 days and less than or equal to 20. Please enter a valid number again: ");
+                    }
+                }
+                else{
+                    if(days>10 && days <=45){
+                        System.out.println("You've selected " + days + " days successfully");
+                        break;
+                    }
+                    else{
+                        System.out.print("Your number of days must be greater than 10 days and less than or equal to 45. Please enter a valid number again: ");
+                    }
                 }
             } catch (NumberFormatException e) {
                 System.out.print("Invalid input. Please enter a valid number: ");
@@ -56,19 +93,18 @@ public class MyProgram {
 
         //start of difficulty + directions screen
         System.out.println("WARNING: It is HIGHLY recommended you master level 1 before going to any other level ");
-        delay(devMode, 500); //Bigger delay so user can read the warning.
+        delay(500); //Bigger delay so user can read the warning.
         System.out.println("[1] You win most of the time, it's difficult to screw up");
-        delay(devMode, 500);
+        delay(500);
         System.out.println("[2] Max difficulty recommended, you'll suffer many losses");
-        delay(devMode, 500);
+        delay(500);
         System.out.println("[3] You'll have mental breakdowns, the odds are now against you");
-        delay(devMode, 500);
+        delay(500);
         System.out.println("[4] We won't pay for your therapist");
-        delay(devMode, 500);
+        delay(500);
         System.out.println("[5] Cry");
-        delay(devMode, 500);
+        delay(500);
         System.out.print("What difficulty would you like? Enter the corresponding number: ");
-        int difficulty;
         while (true) {
             try {
                 difficulty = Integer.parseInt(input.nextLine());
@@ -100,7 +136,7 @@ public class MyProgram {
                 System.out.println("The creators of the game wish you luck");
                 break;
         }
-        delay(devMode, 2000);
+        delay(2000);
         //end of difficulty screen
 
         //start of first battle and shop experience.    
@@ -116,17 +152,17 @@ public class MyProgram {
             System.out.println("You have " + days + " days left to fight him.");
             System.out.println("You send your trolls to fight him.");
             gap(2);
-            delay(devMode, 5000);
+            delay(5000);
 
             if(playerLegion.getSoldiers() > archie.getHealth()){
                 System.out.println("You won that battle!"); //always win first battle
                 gap(2);
                 playerBank.addMoney(calculateWinnings(playerBank, archie));
             }
-            delay(devMode, 5000);
+            delay( 5000);
             gap(2);
             openShop(playerBank, archie, playerLegion, input);
-            delay(devMode, 5000);
+            delay(5000);
             //end of first battle and first shop experience
 
             //start of all battles and shop
@@ -137,30 +173,46 @@ public class MyProgram {
         int streak=0;
         for(int loop = days; loop !=0; loop--){
             gap(2);
-            System.out.println("A new day starts. You have " + loop + " days left. $10 has been deposited.");
-            playerBank.addMoney(10);
-            delay(devMode, 2000);
+            if(difficulty>=3){
+                System.out.println("A new day starts. You have " + loop + " days left. $35 has been deposited.");
+                playerBank.addMoney(35);
+            }
+            else{
+                System.out.println("A new day starts. You have " + loop + " days left. $10 has been deposited.");
+                playerBank.addMoney(10);
+            }
+            delay(2000);
             gap(2);
-            streak += openBattle(playerBank, archie, playerLegion, difficulty, streak);
-            delay(devMode, 7500);
+            streak += openBattle(playerBank, archie, playerLegion, streak);
+            delay(7500);
             gap(2);
             openShop(playerBank, archie, playerLegion, input);
-            delay(devMode, 2000);
-            if(streak > 4){
+            delay(2000);
+            if(rankedMode) { //if ranked, make bounties rarer
+                if (streak > 8) {
+                    bounty death = new bounty();
+                    openBounty(playerBank, playerLegion, death, input);
+
+                    openShop(playerBank, archie, playerLegion, input);
+                    streak = 0;
+                    //check streak and initiate hunt
+                }
+            }
+            else if(streak > 4) {
                 bounty death = new bounty();
-                openBounty(playerBank, playerLegion, difficulty, death, input);
+                openBounty(playerBank, playerLegion, death, input);
                 openShop(playerBank, archie, playerLegion, input);
                 streak = 0;
-                //check streak and initiate hunt     
+                //check streak and initiate hunt
             }
             //displaying final results and thank you message
         }
         System.out.println("You have made it to the end. Your trolls have fought the dragon, now it's time for others to try.");
-        displayResults(playerBank, playerLegion, difficulty, tempDays, devMode);
+        displayResults(playerBank, playerLegion, tempDays);
         thankYouMessage();
     }//end of main method
 
-    public static void openBounty(bank playerBank, legion playerLegion, int difficulty, bounty death, Scanner input){
+    public static void openBounty(bank playerBank, legion playerLegion, bounty death, Scanner input){
         System.out.println("A bounty has started! ");
         death.calcHoundHealth(playerLegion.getSoldiers());
         System.out.println("A hellhound spawns, towering over any previous dragon you've ever met.");
@@ -222,7 +274,7 @@ public class MyProgram {
      * This method opens a new battle with the player and dragon
      * Difficulty is randomly generated
      */
-    public static int openBattle(bank playerBank, dragon archie, legion playerLegion, int difficulty, int streak){
+    public static int openBattle(bank playerBank, dragon archie, legion playerLegion, int streak){
         int randomNum = (int)(Math.random() * playerLegion.getSoldiers() + difficulty);
         int winNum= 0;
         System.out.println("Archie has respawned at " + randomNum + " health.");
@@ -289,8 +341,8 @@ public class MyProgram {
     }
 
     //delays code
-    public static void delay(boolean condition, int x) throws InterruptedException{
-        if(condition){
+    public static void delay(int x) throws InterruptedException{
+        if(devMode){
             Thread.sleep(0);
         }
         else{
@@ -387,37 +439,38 @@ public class MyProgram {
     }
 
     //prints directions if player wants
-    public static void fetchDirections(boolean devMode) throws InterruptedException{
+    public static void fetchDirections() throws InterruptedException{
         System.out.println("------------------------");
         System.out.println("        DIRECTIONS      ");
         gap(2);
         System.out.println("The directions for the troll game are simple: ");
         System.out.println("Gain as much money as you can.");
-        delay(devMode, 2000);
+        delay(2000);
         gap(1);
         System.out.println("The actual task is more difficult. You are the leader of trolls. ");
         System.out.println("You start with $200 and some battle and banker trolls. ");
-        delay(devMode, 2000);
+        delay(2000);
         gap(1);
         System.out.println("Banker trolls give you money everytime you battle.");
         System.out.println("The more banker trolls you have, the higher your bonus is.");
         System.out.println("This bonus is a multiplier that is put onto your total amount of money, everytime you win!");
-        delay(devMode, 2000);
+        delay(2000);
         gap(1);
         System.out.println("Battle trolls are part of your legion.");
         System.out.println("The more battle trolls you have, the more difficult opponents you face.");
         System.out.println("But the more difficult your opponent is, the more money you also earn!");
-        delay(devMode, 2000);
+        delay(2000);
         gap(2);
         System.out.println("Your opponent is an immortal dragon named 'Archie'. ");
         System.out.println("If you have more trolls than Archie's health, you win!");
         System.out.println("If you have less trolls, you loose.");
         System.out.println("If you have the same amount of health, it's a 50/50 shot!");
-        delay(devMode, 2000);
+        delay(2000);
         gap(2);
         System.out.println("Archie's health is random, but the higher difficulty select later, the more difficult he is.");
         System.out.println("You are recommended to start at Level 1 for your first match.");
         gap(1);
+        System.out.println("If You are in adventure mode, bounty's are much more often and much more difficult to defeat");
         System.out.println("REMEMBER, THE GOAL IS TO EARN AS MUCH MONEY AS POSSIBLE!");
         System.out.println("Good luck!");
         gap(2);
@@ -433,27 +486,27 @@ public class MyProgram {
     throws interrupted exception for delay and organized
 
      */
-    public static void displayResults(bank playerBank, legion playerLegion, int difficulty, int tempDays, boolean devMode) throws InterruptedException{
+    public static void displayResults(bank playerBank, legion playerLegion, int tempDays) throws InterruptedException{
         System.out.println("The results have been called! ");
         System.out.println("The goal was to earn as much money as you can in less time.");
         System.out.println("Let's see if you got a nice medal!");
         System.out.println("You can get a bronze, silver, gold, diamond, imperial diamond, obsidian and imperial obsidian reward.");
         gap(3);
         System.out.print("Your chosen difficulty was: ");
-        delay(devMode, 2000);
+        delay(2000);
         System.out.println(difficulty);
         gap(2);
         System.out.print("Your chosen days to battle was: ");
-        delay(devMode, 2000);
+        delay(2000);
         System.out.println(tempDays);
         gap(2);
         System.out.print("You earned a total of: $");
-        delay(devMode, 2000);
+        delay(2000);
         System.out.println(playerBank.getMoney());
         gap(2);
         System.out.println("Now, it's time for your money earned per day average.");
         System.out.println("You earned: $" + playerBank.getMoney() + " in " + tempDays + " days. Your average $/day was...");
-        delay(devMode, 2000);
+        delay(2000);
         double dailyAverage = playerBank.getMoney() / tempDays;
         System.out.println("$" + dailyAverage + " per day average!");
         if(dailyAverage < 100){

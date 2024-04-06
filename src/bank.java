@@ -1,3 +1,5 @@
+package src;
+
 public class bank{
     private double money;
     private int workers;

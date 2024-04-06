@@ -1,3 +1,5 @@
+package src;
+
 public class bounty {
     private boolean bountyActive;
     private int houndHealth;

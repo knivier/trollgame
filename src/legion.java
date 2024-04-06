@@ -1,3 +1,5 @@
+package src;
+
 public class legion {
     private int soldiers;
     //a legion is a group of soldiers

@@ -1,3 +1,5 @@
+package src;
+
 public class dragon {
     //how many trolls it can take out, if random number generates 0 for loss
     private int health;
