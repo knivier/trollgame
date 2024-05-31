@@ -14,5 +14,11 @@ Upon game start, you can choose your difficulty, and number of days you wish to 
 Each day you recieve $10 as a bonus. In higher difficulties, this doesn't occur.
 There are many different logistics to the game, but they can't be put in this file, so go try the game out!
 
-THE MINIMUM VERSION WE RECCOMEND FOR YOU TO RUN IS v4.2
+THE MINIMUM VERSION WE RECCOMEND FOR YOU TO RUN IS v4.4
 Please read the Warning.MD file! It helps you start off before you even download anything.
+
+Below is the Developers Insider release, which we reccomend for users to read that are interested in modifying the game.
+CHECK OUR WEBSITE FOR THE LATEST UPDATES @ https://trollgameweb.pages.dev/
+
+Attached is the PDF for the Insider Release
+[Troll Game - Developers Insider Release 1.pdf](https://github.com/user-attachments/files/15515065/Troll.Game.-.Developers.Insider.Release.1.pdf)
