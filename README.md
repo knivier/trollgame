@@ -1,4 +1,15 @@
 # Troll Game
+
+### New Announcement!
+Today, I (Knivier) am announcing the sunset of Troll Game. From what was my first ever full Java project to something I truly loved, it's gotten to the point where I can't unfortunately keep this project updated. I have bigger priorities and Troll game isn't in that 
+list of priorities. The project will only be mantained for security and bug purposes. You must still adhere to license guidelines, but feel free to add onto what I could not.
+
+Thank you for playing.
+
+The website link will remain active: https://knivier.github.io/KnivierWeb/trollgameinfo.html
+
+
+### Description
 From a class project to a hobby, here's the troll game! The goal of this simple text-based game is to get as much money as you can.
 You can commandeer trolls, as your village once did them a favour. You can help, in return.
 There are currently 2 trolls. The first is a fighter troll. The more you have, the higher your opponents health is. However, you're also more likely to beat him.
